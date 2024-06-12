@@ -5,19 +5,20 @@
         <div class="form-row-heading">
           <div class="sub-headline">Import Inventory File View From Excel File</div>
         </div>
+        <!-- {{uploadedList[0] | json}} -->
         <div class="form-group tmargin10">
           <p-fileUpload name="myfile[]" customUpload="true" auto="true" accept=".xlsx" chooseLabel="Choose" (uploadHandler)="onImportFileChange($event)">
             <ng-template pTemplate="toolbar">
               <!--<button icon="pi pi-upload" pbutton="" type="button" ng-reflect-label="Upload" ng-reflect-icon="pi pi-upload"
-                      [disabled]="!importedFileName" (click)="addBulkInventory()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ">
-                <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-upload"></span><span class="ui-button-text ui-clickable">Upload</span>
-              </button>-->
+                [disabled]="!importedFileName" (click)="addBulkInventory()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ">
+          <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-upload"></span><span class="ui-button-text ui-clickable">Upload</span>
+        </button>-->
 
-              <button icon="pi pi-upload"  type="button" ng-reflect-label="Upload" ng-reflect-icon="pi pi-upload"
+              <button icon="pi pi-upload" type="button" ng-reflect-label="Upload" ng-reflect-icon="pi pi-upload"
                       (click)="addBulkInventory()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ">
                 <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-upload"></span><span class="ui-button-text ui-clickable">Upload</span>
               </button>
-              <button type="button" ng-reflect-label="Cancel"con="pi pi-times" class="blue-underline pull-right" (click)="CancelImport()">
+              <button type="button" ng-reflect-label="Cancel" con="pi pi-times" class="blue-underline pull-right" (click)="CancelImport()">
                 Cancel
               </button>
             </ng-template>
@@ -32,8 +33,71 @@
           </p-fileUpload>
         </div>
       </div>
-    </div>
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Source Name</th>
+                  <th>WSN</th>
+                  <th>WID</th>
+                  <th>FSN</th>
+                  <th>SKU</th>
+                  <th>Listing ID</th>
+                  <th>Order ID</th>
+                  <th>QCremark</th>
+                  <th>Grade</th>
+                  <th>ProductTitle</th>
+                  <th>HSN_SAC</th>
+                  <th>IGSTrate</th>
+                  <th>FSP</th>
+                  <th>MRP</th>
+                  <th>Rejected</th>
+                  <th>PI_Date</th>
+                  <th>FktLink</th>
+                  <th>Wh_Locatin</th>
+                  <th>Brand</th>
+                  <th>Vertical</th>
+                  <th>Cat_type</th>
+                  <th>Area</th>
+                  <th>Dest_Location</th>
+                  <th>Vrp</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of uploadedList">
+                  <td>{{data?.SourceName}}</td>
+                  <td>{{data?.WSN}}</td>
+                  <td>{{data?.WID}}</td>
+                  <td>{{data?.FSN}}</td>
+                  <td>{{data?.SKU}}</td>
+                  <td>{{data?.OrderID}}</td>
+                  <td>{{data?.ListingID}}</td>
+                  <td>{{data?.QCRemark}}</td>
+                  <td>{{data?.Grade}}</td>
+                  <td>{{data?.ProductTitle}}</td>
+                  <td>{{data?.HSN/SAC}}</td>
+                  <td>{{data?.IGSTRate}}</td>
+                  <td>{{data?.FSP}}</td>
+                  <td>{{data?.MRP}}</td>
+                  <td>{{data?.Rejected}}</td>
+                  <td>{{data?.PI_Date}}</td>
+                  <td>{{data?.FktLink}}</td>
+                  <td>{{data?.Wh_Location}}</td>
+                  <td>{{data?.BRAND}}</td>
+                  <td>{{data?.Vertical}}</td>
+                  <td>{{data?.Cat_type}}</td>
+                  <td>{{data?.Area}}</td>
+                  <td>{{data?.Dest_Location}}</td>
+                  <td>{{data?.Vrp}}</td>
+                  <td>{{data?.Category}}</td>
+                  </tr>
+                  </tbody>
+                  </table>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
-
-

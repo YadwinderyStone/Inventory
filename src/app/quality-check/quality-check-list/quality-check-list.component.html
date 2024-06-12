@@ -1,0 +1,141 @@
+<!--<div class="grid">
+  <div class="col user_thead">
+    <h6 class="m-0"><b>Quality Check List</b></h6>
+    <p-button class="d-flex justify-content-end" icon="pi pi-plus-circle"  label="Add Rack" [style]="{'border-radius': '50px'}"></p-button>
+  </div>
+</div>-->
+
+<div class="card mt-6">
+  <p-table [tableStyle]="{ 'min-width': '50rem' }" [value]="qcList">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Quality Type</th>
+        <!-- <th>Action</th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rackList>
+      <tr >
+        <td><span (click)="openDialog()" class="cursor-pointer">{{rackList.rackName}}</span></td>
+        <!-- <td>{{rackList.rackDescription}}</td> -->
+        <!-- <td class="table-column-150" mat-cell>
+          <button (click)="deleteRack(rackList)" class="btn btn-danger btn-sm  m-right-10" type="button">
+            <i class="fas fa-trash-alt"> Delete</i>
+          </button>
+        </td> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="rackList?.length"><span (click)="openDialog(theList)" class="cursor-pointer" >QC1</span></td>
+       
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<style>
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+
+  .modal-header-right {
+    /* Additional styling for the right header content */
+  }
+</style>
+
+
+<p-dialog [(visible)]="isModVisible" [modal]="true" [style]="{width: '50vw'}">
+  <div class="modal-header">
+    <div class="modal-header-right">
+      <h3>Rack : {{RackName}}</h3>
+    </div>
+  </div>
+ 
+  <div class="modal-footer">
+    <!--<button type="button" class="btn btn-primary" (click)="submitCheckbox()">Submit</button>-->
+    <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+
+  </div>
+</p-dialog>
+
+
+
+<div class="card flex justify-content-center mt-5 w-100" [style]="{width: '13vw'}">
+  <!-- <app-spinner [loading]="loading"></app-spinner> -->
+
+  <p-dialog header="Quality Check" [draggable]="false" [modal]="true" [(visible)]="isWriteVisible" [style]="{width: '50vw'}" [maximizable]="false">
+    
+    <div class="modal-header">
+     <h3>ProductName</h3>
+    </div>
+    <div class="modal-body">
+      <p-table [value]="theList" [responsive]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            
+            <th>Products</th>
+            <th>Action</th>
+            <!--<th>Grade</th>-->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td><span>{{item.productTitle}}</span></td>
+            <td>
+                <button type="button" class="btn btn-success" [routerLink]="['/qualitycheck']" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}">ScanProduct</button>&nbsp;&nbsp;
+                  <button type="button" class="btn btn-primary" (click)="openScanDialogue(item)" >Product Details</button> 
+            </td>
+            <!--<td>{{item.grade}}</td>-->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-primary" >Submit</button> -->
+      <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+  
+    </div>
+  </p-dialog>
+
+
+
+  <p-dialog  [(visible)]="scanProductDetails" [modal]="true" [style]="{width: '50vw'}">
+    <div class="modal-header">
+      <div class="modal-header-right">
+        <h5>ProductName : {{ProductName}}</h5>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p-table [responsive]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Product Details</th>
+            <!-- <th>Action</th> -->
+            <!--<th>Grade</th>-->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{item.productName}}</td>
+            <td> 
+            </td>
+          </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="emptymessage">
+          <tr>
+            <td [attr.colspan]="list.length">No data found.</td>
+          </tr>
+        </ng-template> -->
+      </p-table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="submitScanProductDetail()">Submit</button>
+      <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+  
+    </div>
+  </p-dialog>
+  
+</div>

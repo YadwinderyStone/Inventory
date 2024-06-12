@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Product } from '@core/domain-classes/product';
 import { ProductResourceParameter } from '@core/domain-classes/product-resource-parameter';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { bulkinventory } from '../core/domain-classes/bulkinventory';
 
 @Injectable({
   providedIn: 'root'
@@ -63,12 +64,42 @@ export class ProductService {
     const formData = new FormData();
     files.forEach(file => formData.append('files', file));
 
-    return this.http.post<string[]>('Product/BulkUploadProducts', formData).pipe(
+    return this.http.post<string[]>('BulkProduct/AddBulkProduct', formData).pipe(
       map((response: string[]) => response),
       catchError((error: HttpErrorResponse) => {
         console.error('Error uploading files:', error);
         return throwError(error); 
       })
     );
+  }
+  deleteProduct(id: string): Observable<void> {
+    debugger
+    const customParams = new HttpParams();
+    const url = `BulkProduct/DeleteBulkProduct/${id}`;
+    return this.http.delete<void>(url, {
+      params: customParams
+    });
+  }
+  UpdateDate(ietem: any): Observable<void> {
+    debugger
+    const url = `BulkProduct/UpdateProductUpload/${ietem.productMasterID}`;
+    console.log('POST Request URL:', url);
+    console.log('POST Request Payload:', ietem);
+    return this.http.post<void>(url, ietem)
+      .pipe(
+        tap(() => console.log('POST Request successful')),
+        catchError(error => {
+          console.error('POST Request error:', error);
+          throw error; // Rethrow the error to propagate it
+        })
+      );
+  }
+  getProductBulk() {
+    debugger
+    const customParams = new HttpParams();
+    const url = `BulkProduct/GetAllProductData`;
+    return this.http.get<bulkinventory[]>(url, {
+      params: customParams
+    });
   }
 }

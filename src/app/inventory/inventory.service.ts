@@ -60,9 +60,6 @@ export class InventoryService {
     return this.http.post<Inventory>(url, inventory);
   }
 
-
-
-
   getInventoryHistories(
     resourceParams: InventoryHistoryResourceParameter
   ): Observable<HttpResponse<InventoryHistory[]>> {
@@ -82,6 +79,7 @@ export class InventoryService {
   }
 
   addBulkInventory(files: File[]): Observable<string[]> {
+    debugger
     if (!files || files.length === 0) {
       return throwError('No files selected for upload');
     }
@@ -95,18 +93,16 @@ export class InventoryService {
       })
     );
   }
-  getInventoryBulkList(resourceParams:InventoryResourceParameter) {
-    const customParams = new HttpParams()
-    .set('PageSize', resourceParams.pageSize.toString())
-      .set('Skip', resourceParams.skip.toString())
-      .set('SearchQuery', resourceParams.search)
-    // const url = `ExcelUpload/GetAllExcelData?Skip=${data?.skip}&pageSize=${data?.pageSize}&search=${data?.search}`;
+  getInventoruBulk() {
+    debugger
+    const customParams = new HttpParams();
     const url = `ExcelUpload/GetAllExcelData`;
     return this.http.get<bulkinventory[]>(url, {
       params: customParams
     });
   }
   UpdateDate(ietem: any): Observable<void> {
+    debugger
     const url = `ExcelUpload/UpdateExcelUpload/${ietem.productMasterID}`;
     console.log('POST Request URL:', url);
     console.log('POST Request Payload:', ietem);
@@ -120,6 +116,7 @@ export class InventoryService {
       );
   }
   deleteProduct(id: string): Observable<void> {
+    debugger
     const customParams = new HttpParams();
     const url = `ExcelUpload/Delete/${id}`;
     return this.http.delete<void>(url, {

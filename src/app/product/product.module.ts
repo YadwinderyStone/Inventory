@@ -22,6 +22,7 @@ import { GenerateBarcodeComponent } from './product-list/generate-barcode/genera
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { UploadBulkProductComponent } from './upload-bulk-product/upload-bulk-product.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { BulkProductListComponent } from './bulk-product-list/bulk-product-list.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ProductListComponent,
     ManageProductComponent,
     GenerateBarcodeComponent,
-    UploadBulkProductComponent
+    UploadBulkProductComponent,
+    BulkProductListComponent
   ],
   imports: [
     CommonModule,

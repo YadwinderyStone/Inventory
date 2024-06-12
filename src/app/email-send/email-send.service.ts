@@ -15,6 +15,7 @@ export class EmailSendService {
     private commonHttpErrorService: CommonHttpErrorService) { }
 
   sendEmail(email: Email): Observable<void | CommonError> {
+    debugger;
     const url = 'Email';
     return this.httpClient.post<void>(url, email)
       .pipe(catchError(this.commonHttpErrorService.handleError));

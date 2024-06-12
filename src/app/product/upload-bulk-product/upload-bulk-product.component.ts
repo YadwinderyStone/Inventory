@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../base.component';
 import { ProductService } from '../product.service';
 import { bulkinventory } from '../../core/domain-classes/bulkinventory';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-bulk-product',
@@ -13,6 +14,7 @@ export class UploadBulkProductComponent extends BaseComponent implements OnInit 
   bulkinventory: bulkinventory[] = [];;
   ImportResultHtml = "";
   constructor(
+    private route: Router,
     private productService: ProductService,
   ) {
       super();
@@ -21,9 +23,7 @@ export class UploadBulkProductComponent extends BaseComponent implements OnInit 
   ngOnInit(): void {
   }
   TheExcelFile: File[] = [];
-
   onImportFileChange(event) {
-
     let fileList: FileList = event.files;
 
     if (fileList.length > 0) {
@@ -32,9 +32,7 @@ export class UploadBulkProductComponent extends BaseComponent implements OnInit 
       let exixtingFile = this.TheExcelFile.find((e: any) => e.name == file.name);
       if (exixtingFile) {
         alert('file already exist please choose another file');
-
       } else {
-
         this.TheExcelFile.push(file);
         /* this.uploadedFiles.push(file);*/
       }
@@ -52,9 +50,17 @@ export class UploadBulkProductComponent extends BaseComponent implements OnInit 
   deleteFile(index: number) {
     this.TheExcelFile.splice(index, 1); // Remove the element at the given index
   }
+  //CancelImport() {
+  //  this.uploadedFiles = null;
+  //  this.TheExcelFile = null;
+  //  //this.Fetch(true);
+  //}
   CancelImport() {
     this.uploadedFiles = null;
     this.TheExcelFile = null;
+    this.route.navigateByUrl('products/bulkproduct').then(() => {
+      window.location.reload();
+    });
     //this.Fetch(true);
   }
 

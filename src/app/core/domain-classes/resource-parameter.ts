@@ -6,5 +6,4 @@ export abstract class ResourceParameter {
   skip = 0;
   name = '';
   totalCount = 0;
-  search = ''
 }

@@ -298,6 +298,7 @@ export class SalesOrderReportComponent extends BaseComponent implements OnInit {
   onDownloadReport() {
     this.salesOrderService.getAllSalesOrderExcel(this.salesOrderResource)
       .subscribe((c: HttpResponse<SalesOrder[]>) => {
+        debugger
         this.salesOrders = [...c.body];
         let heading = [[
           this.translationService.getValue('CREATED_DATE'),

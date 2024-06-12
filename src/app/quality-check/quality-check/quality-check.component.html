@@ -1,0 +1,49 @@
+<p>Product Scan</p>
+
+<!--<h1>Barcode Reader</h1>
+<div id="interactive" class="viewport"></div>-->
+
+<!-- <ngx-barcode-scanner  (onValueChanges)="onBarcodeScanned($event)"></ngx-barcode-scanner> -->
+
+<!-- <div class="scanner-container">
+    <ngx-barcode-scanner 
+
+      (barcode)="onBarcodeScanned($event)">
+    </ngx-barcode-scanner>
+  </div> -->
+
+
+  <!-- <div class="scanner-container">
+    <ngx-barcode-scanner
+      [device]="selectedDevice"
+      [formats]="['QR_CODE', 'CODE_128', 'EAN_13']"
+      (barcode)="onBarcodeScanned($event)">
+    </ngx-barcode-scanner>
+    <div *ngIf="scannedResult">
+      <p>Scanned Barcode: {{ scannedResult }}</p>
+    </div>
+  </div> -->
+  
+
+  <!-- <div class="scanner-container">
+    <ngx-barcode-scanner 
+      [device]="selectedDevice"
+      (scanned)="onBarcodeScanned($event)">
+    </ngx-barcode-scanner>
+    <div *ngIf="scannedResult">
+      <p>Scanned Barcode: {{ scannedResult }}</p>
+    </div>
+  </div> -->
+
+
+  <div class="scanner-container">
+    <ngx-barcode-scanner
+      [start]="true"
+      (scanned)="onBarcodeScanned($event)"
+      class="barcode-scanner">
+    </ngx-barcode-scanner>
+    <div *ngIf="scannedResult" class="result">
+      <p>Scanned Barcode: {{ scannedResult }}</p>
+    </div>
+  </div>
+  

@@ -9,27 +9,20 @@ import { ToastrService } from 'ngx-toastr';
 import { InventoryResourceParameter } from '../../core/domain-classes/inventory-resource-parameter';
 import { Subject, merge } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
+import { ProductDataSource } from '../../product/product-list/product-datasource';
 import { ResponseHeader } from '../../core/domain-classes/response-header';
 import { MatSort } from '@angular/material/sort';
 import { SubSink } from 'subsink';
-import { BaseComponent } from 'src/app/base.component';
-import { CommonDialogService } from '@core/common-dialog/common-dialog.service';
-import { BulkInventoryDataSource } from './bulkInventory-datasource';
 
 @Component({
   selector: 'app-bulk-upload-inventory-list',
   templateUrl: './bulk-upload-inventory-list.component.html',
   styleUrls: ['./bulk-upload-inventory-list.component.scss'],
 })
-export class BulkUploadInventoryListComponent extends BaseComponent implements OnInit {
-  displayedColumns: string[] = ['action', 'sourceName', 'WSN', 'WID', 'FSN', 'SKU','ListingID','OrderID','QCremark','Grade', 'ProductTitle','HSN_SAC',
-  'IGSTrate','FSP','MRP','Rejected','PI_Date','FktLink','Wh_Locatin','Brand','Vertical','Cat_type','Area','Dest_Location','Vrp',
-  'BatchNumber','Category','createdDate','createdBy','modifiedDate','modifiedBy','deletedDate','deletedBy','isDeleted']
-  
-  columnsToDisplay: string[] = ["footer"];
+export class BulkUploadInventoryListComponent implements OnInit {
+  displayedColumns: string[] = ['action', 'imageUrl', 'name', 'brandName', 'categoryName', 'unitName', 'purchasePrice', 'salesPrice', 'mrp', 'warehouse'];
   filteredList: any[] = []; // Filtered list based on search query
   searchQuery: string = '';
-  search: string='';
   @ViewChild('dropdownMenu') dropdownMenu: ElementRef;
   isDropdownOpen: boolean = false;
   IsForUpdate: boolean = true;
@@ -37,31 +30,29 @@ export class BulkUploadInventoryListComponent extends BaseComponent implements O
   inventoryResource: InventoryResourceParameter;
   public filterObservable$: Subject<string> = new Subject<string>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource: BulkInventoryDataSource;
+  dataSource: ProductDataSource;
   @ViewChild(MatSort) sort: MatSort;
+
+
+
+
 
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private commonDialogService: CommonDialogService,
     public translationService: TranslationService,
     private inventoryservice: InventoryService,
     private toastrService: ToastrService,
 
   ) {
-    super(translationService);
     this.filteredList = this.theList;
     this.inventoryResource = new InventoryResourceParameter();
-    this.inventoryResource.pageSize = 10;
-    this.inventoryResource.skip = 0;
+    this.inventoryResource.pageSize = 15;
     this.inventoryResource.orderBy = 'createdDate desc';
-
   }
   ngOnInit(): void {
-    // this.getInventoruBulk();
-    this.dataSource = new BulkInventoryDataSource(this.inventoryservice);
-    this.dataSource.loadData(this.inventoryResource);
-    this.getResourceParameter();
+    this.getInventoruBulk();
+
     this.sub$.sink = this.filterObservable$
       .pipe(
         debounceTime(1000),
@@ -87,13 +78,13 @@ export class BulkUploadInventoryListComponent extends BaseComponent implements O
       });
   }
   getInventoruBulk() {
-    this.inventoryservice.getInventoryBulkList(this.inventoryResource).subscribe((c:any) => {
+    this.inventoryservice.getInventoruBulk().subscribe(c => {
+      debugger;
       this.theList = [...c];
-      // this.inventoryResource.totalCount = c?.totalCount || 20
       this.filteredList = this.theList;
-      // console.log(this.theList, "inventrybulk")
-      // console.log(this.filteredList, "Finventrybulk")
-
+      debugger;
+      console.log(this.theList, "inventrybulk")
+      console.log(this.filteredList, "Finventrybulk")
     });
   }
   getResourceParameter() {
@@ -121,19 +112,20 @@ export class BulkUploadInventoryListComponent extends BaseComponent implements O
       .subscribe();
   }
   filterList() {
-
+    debugger
     if (!this.searchQuery.trim()) {
       // If search query is empty, show all items
       this.filteredList = this.theList;
     } else {
       // Filter the list based on search query
-      const query = this.searchQuery.toLowerCase().trim();
+      const query = this.searchQuery.toLowerCase().trim(); 
       this.filteredList = this.theList.filter(item =>
-        item.sourceName.toLowerCase().ncludes(query)
+        item.sourceName.toLowerCase().includes(query)
       );
     }
   }
   toggleDropdown(item: any) {
+    debugger
     if (!item.editable) {
       this.isDropdownOpen = !this.isDropdownOpen;
       if (this.isDropdownOpen) {
@@ -142,16 +134,19 @@ export class BulkUploadInventoryListComponent extends BaseComponent implements O
     }
   }
   editProduct(item: any, event: MouseEvent) {
+    debugger
     event.preventDefault();
     item.editable = !item.editable;
     console.log("Saving:", item);
     this.isDropdownOpen = false;
   }
   UpdateDate(item: any) {
+    debugger
     item;
     this.inventoryservice.UpdateDate(item)
       .pipe(
         tap((c: any) => {
+          debugger;
           if (c.success === true) {
             item.editable = !item.editable;
             this.toastrService.success(this.translationService.getValue('UPDATE_SUCCESSFULLY'));
@@ -162,36 +157,18 @@ export class BulkUploadInventoryListComponent extends BaseComponent implements O
           }
         }),
         catchError(error => {
-          //  console.error('UpdateDate error:', error);
+        //  console.error('UpdateDate error:', error);
           throw error; // Rethrow the error to propagate it
         })
       )
       .subscribe();
   }
   deleteProduct(item: any) {
-    this.sub$.sink = this.commonDialogService.deleteConformationDialog(this.translationService.getValue('ARE_YOU_SURE_YOU_WANT_TO_DELETE'))
-      .subscribe(isTrue => {
+    debugger;
     this.inventoryservice.deleteProduct(item.productMasterID).subscribe(c => {
       this.toastrService.success(this.translationService.getValue('DELETED_SUCCESSFULLY'));
       item.editable = !item.editable;
       this.getInventoruBulk();
-    },error=>{
-      this.toastrService.error(error);
-    });})
-  }
-
-
-
-  onSearch(){
-    if(this.search){
-      this.inventoryResource.search = this.search;
-      this.dataSource.loadData(this.inventoryResource);
-    }
-  }
-
-onClear(){
-  this.search = '';
-    this.inventoryResource.search = this.search;
-    this.dataSource.loadData(this.inventoryResource);
+    });
   }
 }

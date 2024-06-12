@@ -1,93 +1,12 @@
-<!--<div class="page-header-main" style=" margin: -5px 0px 10px; border-bottom: 1px solid #2095F3; padding: 10px 0;">
-  <div class="row align-items-center justify-content-between">
-    <div class="col-md-auto col-sm-auto col-auto">
-      <div class="content-header">
-        <h1>{{"Inventory List" | translate}}</h1>
-      </div>
-    </div>
-    <div class="col-md-auto col-sm-auto col-auto" style="position: relative; left: 10px;">
-      <button class="btn blue-btn btn-sm m-right-10" [routerLink]="['/inventory','bulk_inventory']">
-        <i class="fas fa-plus"></i> {{"Upload Bulk Inventory" | translate}}
-      </button>
-    </div>
-  </div>
-</div>
-<div class="row" style="margin-top: 10px;">
-  <div class="col-sm-12">
-    <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (ngModelChange)="filterList()">
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th>Source Name</th>
-            <th>WSN</th>
-            <th>WID</th>
-            <th>FSN</th>
-            <th>SKU</th>
-            <th>Listing ID</th>
-            <th>Order ID</th>
-            <th>QCremark</th>
-            <th>Grade</th>
-            <th>ProductT</th>
-            <th>HSN_SAC</th>
-            <th>IGSTrate</th>
-            <th>FSP</th>
-            <th>MRP</th>
-            <th>Rejected</th>
-            <th>PI_Date</th>
-            <th>FktLink</th>
-            <th>Wh_Locatin</th>
-            <th>Brand</th>
-            <th>Vertical</th>
-            <th>Cat_type</th>
-            <th>Area</th>
-            <th>Dest_Location</th>
-            <th>Vrp</th>
-            <th>BatchNumber</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of filteredList">
-            <td>{{ item.sourceName }}</td>
-            <td>{{ item.wsn }}</td>
-            <td>{{ item.wid }}</td>
-            <td>{{ item.fsn }}</td>
-            <td>{{ item.sku }}</td>
-            <td>{{ item.listingID }}</td>
-            <td>{{ item.orderID }}</td>
-            <td>{{ item.qCremark }}</td>
-            <td>{{ item.grade }}</td>
-            <td>{{ item.productT }}</td>
-            <td>{{ item.hsN_SAC }}</td>
-            <td>{{ item.igsTrate }}</td>
-            <td>{{ item.fsp }}</td>
-            <td>{{ item.mrp }}</td>
-            <td>{{ item.rejected }}</td>
-            <td>{{ item.pI_Date }}</td>
-            <td>{{ item.fktLink }}</td>
-            <td>{{ item.wh_Locatin }}</td>
-            <td>{{ item.brand }}</td>
-            <td>{{ item.vertical }}</td>
-            <td>{{ item.cat_type }}</td>
-            <td>{{ item.area }}</td>
-            <td>{{ item.dest_Location }}</td>
-            <td>{{ item.vrp }}</td>
-            <td>{{ item.batchNumber }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>-->
 <div class="page-header-main" style="margin: -5px 0px 10px; border-bottom: 1px solid #2095F3; padding: 10px 0;">
   <div class="row align-items-center justify-content-between">
     <div class="col-md-auto col-sm-auto col-auto">
-      <div class="content-header">
-        <h1>{{"Inventory List" | translate}}</h1>
+      <div class="content-header px-2">
+        <h1>{{"Product List" | translate}}</h1>
       </div>
     </div>
-    <div class="col-md-auto col-sm-auto col-auto" style="position: relative; left: 10px;">
-      <button class="btn blue-btn btn-sm m-right-10" [routerLink]="['/inventory','bulk_inventory']">
+    <div class="col-md-auto col-sm-auto col-auto mr-2">
+      <button class="btn blue-btn btn-sm m-right-10" [routerLink]="['/products','addbulkproduct']">
         <i class="fas fa-plus"></i> {{"Upload Bulk Inventory" | translate}}
       </button>
     </div>
@@ -176,24 +95,8 @@
           </tr>
         </tbody>
       </table>
-
-
-
-
-
     </div>
   </div>
-
-
-  <ng-container matColumnDef="footer">
-    <td mat-footer-cell colspan="10" *matFooterCellDef>
-      <mat-paginator [dir]="langDir" [length]="inventoryResource.totalCount"
-                     [pageSize]="inventoryResource.pageSize" [pageSizeOptions]="[15, 20, 30]">
-      </mat-paginator>
-    </td>
-  </ng-container>
-
-
 </div>
 
 

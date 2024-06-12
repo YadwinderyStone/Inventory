@@ -19,15 +19,13 @@ const routes: Routes = [
     data: { claimType: 'INVE_VIEW_INVENTORIES' },
     canActivate: [AuthGuard]
   },
+
   {
     path: 'bulk-inventory-list',
     component: BulkUploadInventoryListComponent,
     canActivate: [AuthGuard]
   },
-
 ];
-
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

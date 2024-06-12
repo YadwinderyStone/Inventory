@@ -1,8 +1,7 @@
-<div class="grid ">
+<div class="grid">
   <div class="col user_thead">
-    <h6 class="m-0"> <b>Rack</b> </h6>
-    <p-button class="d-flex justify-content-end" icon="pi pi-plus-circle" (click)="showDialog()" label="Add Rack"
-              [style]="{'border-radius': '50px'}"></p-button>
+    <h6 class="m-0"><b>Rack</b></h6>
+    <p-button class="d-flex justify-content-end" icon="pi pi-plus-circle" (click)="showDialog()" label="Add Rack" [style]="{'border-radius': '50px'}"></p-button>
   </div>
 </div>
 
@@ -10,125 +9,96 @@
   <app-spinner [loading]="loading"></app-spinner>
 
   <p-dialog header="Add Rack" [draggable]="false" [modal]="true" [(visible)]="visible" [style]="{width: '50vw'}" [maximizable]="false">
-    <p-header *ngIf="!isId">
-      Add Rack
-    </p-header>
-    <p-header *ngIf="isId">
-      Update Rack
-    </p-header>
+    <p-header *ngIf="!isId">Add Rack</p-header>
+    <p-header *ngIf="isId">Update Rack</p-header>
     <form [formGroup]="rackForm">
       <div class="grid">
         <div class="row">
-
           <div class="col-12">
             <div class="field" id="role_roles">
               <label for="warehouseName" class="block">Warehouse name:</label>
-              <!--<p-dropdown [options]="warehouses" formControlName="wareHouseID" optionLabel="name"
-                    class="role-drp" [showClear]="true" placeholder="Select warehouseName"></p-dropdown>-->
-              <select placeholder="Select Warehouse" class="form-control"
-                      formControlName="Id">
+              <select placeholder="Select Warehouse" class="form-control" formControlName="Id">
                 <option value="">{{'Select' | translate}}</option>
-                <option *ngFor="let warehouse of warehouses" [value]="warehouse.id">
-                  {{warehouse.name}}
-                </option>
+                <option *ngFor="let warehouse of warehouses" [value]="warehouse.id">{{warehouse.name}}</option>
               </select>
-              <small class="p-error block"
-                     *ngIf="rackForm.get('Id')?.invalid && rackForm.get('Id')?.dirty">
-                Please select Warehouse
+              <small class="p-error block" *ngIf="rackForm.get('warehouses')?.invalid && rackForm.get('warehouses')?.dirty">
+                Warehouse name is required
               </small>
             </div>
           </div>
           <div class="col-12">
             <div class="field rackna">
-              <label for="name" class="block ">Rack name:</label>
+              <label for="name" class="block">Rack name:</label>
               <input type="text" pInputText placeholder="RackName" formControlName="RackName" class="w-full" />
-              <small class="p-error block"
-                     *ngIf="rackForm.get('RackName')?.invalid && rackForm.get('RackName')?.dirty">
-                Rack name
-                is
-                required
+              <small class="p-error block" *ngIf="rackForm.get('name')?.invalid && rackForm.get('name')?.dirty">
+                Rack name is required
               </small>
             </div>
           </div>
           <div class="col-12">
             <div class="field">
               <label for="description" class="block des align-top">Description:</label>
-              <textarea rows="5" cols="30" formControlName="RackDescription" placeholder="Description" pInputTextarea class="w-full">
-</textarea>
+              <textarea rows="5" cols="30" formControlName="RackDescription" placeholder="Description" pInputTextarea class="w-full"></textarea>
             </div>
           </div>
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <button pButton type="submit" label="{{!isId ? 'Add': 'Update' }}" (click)="submitForm()"
-                [disabled]="addItem" loadingIcon="pi pi-spin pi-sync" [loading]="addItem">
+        <button pButton type="submit" label="{{!isId ? 'Add' : 'Update'}}" (click)="submitForm()" [disabled]="addItem" loadingIcon="pi pi-spin pi-sync" [loading]="addItem">
         </button>
       </div>
     </form>
   </p-dialog>
 </div>
+<div class="card flex justify-content-center mt-5 w-100" [style]="{width: '13vw'}">
+  <app-spinner [loading]="loading"></app-spinner>
+
+  <p-dialog header="Add Remark" [draggable]="false" [modal]="true" [(visible)]="isWriteVisible" [style]="{width: '50vw'}" [maximizable]="false">
+    <form [formGroup]="remarkForm">
+      <div class="grid gridHeight">
+        <div class="row">
+          <div class="col-12 my-3">
+              <label for="remark" class="block des align-top">Remark:</label>
+              <textarea rows="5" cols="30" formControlName="Remars" placeholder="Remark" pInputTextarea class="w-100"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button pButton type="button"  (click)="submitRemark()" [disabled]="addremark" loadingIcon="pi pi-spin pi-sync" [loading]="addremark">Submit Remark
+        </button>
+      </div>
+    </form>
+  </p-dialog>
+</div>
+
+
 <div class="card mt-6">
-  <p-table     [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[1,2,5,10,25,50]"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [lazy]="true"
-  [rows]="pageSize"
-  [paginator]="true"
-  [rowsPerPageOptions]="[1,2,5,10,20]"
-  [totalRecords]="totalRecords"
-  (onLazyLoad)="loadRackList($event)"
-
-
- [value]="data" [tableStyle]="{ 'min-width': '50rem' }" [loading]="loading">
+  <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }" [loading]="loading">
     <ng-template pTemplate="header">
       <tr>
-        <!-- <th>Id</th> -->
         <th>Rack Name</th>
-        <!-- <th>Warehouse Name</th> -->
         <th>Rack description</th>
         <th>Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rackList>
       <tr>
-        <td>
-          {{rackList.rackName}}
-        </td>
-        <td>
-          {{rackList.rackDescription}}
-        </td>
-        
-        <!--<td *ngFor="let item of rackList" [ngClass]="{ 'edited-row': item.editable }">
-          <div class="dropdown" *ngIf="!item.editable">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Action
-            </button>
-            <div class="dropdown-menu" aria-labelledby="actionDropdown">
-              <a class="dropdown-item" (click)="editRack(item, $event)">Edit</a>
-              <a class="dropdown-item" (click)="deleteRack(item)">Delete</a>
-            </div>
-          </div>
-          <div *ngIf="item.editable">
-            <button class="btn btn-primary btn-sm" (click)="UpdateDate(item)">
-              Update
-            </button>
-          </div>
-        </td>-->
+        <td>{{rackList.rackName}}</td>
+        <td>{{rackList.rackDescription}}</td>
         <td class="table-column-150" mat-cell>
-          <button (click)="editRack(rackList)"
-                  class="btn btn-success btn-sm m-right-10" type="button">
+          <button (click)="editRack(rackList)" class="btn btn-success btn-sm m-right-10" type="button">
             <i class="fas fa-pencil-alt"> Edit</i>
-            <!--<span class="d-none d-sm-inline"> {{'EDIT' | translate}}</span>-->
           </button>
-          <button  (click)="deleteRack(rackList)" class="btn btn-danger btn-sm" type="button">
-            <i class="fas fa-trash-alt">        Delete</i>
-            <!--<span class="d-none d-sm-inline"> {{'DELETE' | translate}}</span>-->
+          <button (click)="deleteRack(rackList)" class="btn btn-danger btn-sm  m-right-10" type="button">
+            <i class="fas fa-trash-alt"> Delete</i>
+          </button>
+          <button (click)="PutProductInRack(rackList)" class="btn btn-success btn-sm  m-right-10" type="button">
+            <i class="fas fa-plus">   Add Product In Rack</i>
+          </button>
+          <button (click)="ShowProductOFRack(rackList)" class="btn btn-primary btn-sm" type="button">
+            <i class="fas fa-eye">          View Rack</i>
           </button>
         </td>
-
-        <!--<td><input type="text" [(ngModel)]="item.rackName" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
-        <td><input type="text" [(ngModel)]="item.rackDescriptionn" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
-        <td><input type="text" [(ngModel)]="item.id" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>-->
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -137,6 +107,93 @@
       </tr>
     </ng-template>
   </p-table>
-
-
 </div>
+
+<style>
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+
+  .modal-header-right {
+    /* Additional styling for the right header content */
+  }
+</style>
+
+<p-dialog header="Add Product In Rack" [(visible)]="isModalVisible" [modal]="true" [style]="{width: '50vw'}">
+  <div class="modal-header">
+    <div class="modal-header-right">
+      <h3>Rack : {{RackName}}</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p-table [value]="theList" [responsive]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Select</th> 
+          <th>Products</th>
+          <!--<th>Grade</th>-->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>
+            <input type="checkbox" [disabled]="item?.isAdded" [(ngModel)]="item.selected" [checked]="item.isSelected"   (change)="handleCheckboxChange(item)">
+          </td>
+          <td>{{item.productTitle}}</td>
+          <!--<td>{{item.grade}}</td>-->
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="submitCheckbox()">Submit</button>
+    <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+
+  </div>
+</p-dialog>
+
+<p-dialog  [(visible)]="isModVisible" [modal]="true" [style]="{width: '50vw'}">
+  <div class="modal-header">
+    <div class="modal-header-right">
+      <h3>Rack : {{RackName}}</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <p-table [value]="list" [responsive]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Product Name</th>
+          <th>Action</th>
+          <!--<th>Grade</th>-->
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{item.productName}}</td>
+          <td>
+            <!-- <button class="btn btn-success btn-sm m-right-10" [routerLink]="['/qualitycheck']" type="button">Quality Check</button> -->
+            <button class="btn btn-danger btn-sm m-right-10" (click)="RemoveFromRack(item.rackDataID)" type="button">Remove from Rack</button>
+            <!--<button class="btn btn-primary btn-sm m-right-10"  type="button">Remark</button>-->
+            <button (click)="WriteRemark()" class="btn btn-primary btn-sm" type="button">
+              <i class="fas fa-write">  Remark</i>
+            </button>&nbsp;&nbsp;
+            
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="list.length">No data found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="modal-footer">
+    <!--<button type="button" class="btn btn-primary" (click)="submitCheckbox()">Submit</button>-->
+    <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+
+  </div>
+</p-dialog>
+

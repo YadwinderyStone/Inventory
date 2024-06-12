@@ -249,8 +249,6 @@ export class CustomerDetailComponent extends BaseComponent implements OnInit {
           .subscribe(c => {
             this.toastrService.success(this.translationService.getValue('CUSTOMER_UPDATE_SUCCESSFULLY'));
             this.router.navigate(['/customer']);
-          },error=>{
-            this.toastrService.error(error);
           });
       } else {
         this.sub$.sink = this.customerService
@@ -258,8 +256,6 @@ export class CustomerDetailComponent extends BaseComponent implements OnInit {
           .subscribe(c => {
             this.toastrService.success(this.translationService.getValue('CUSTOMER_SAVE_SUCCESSFULLY'));
             this.router.navigate(['/customer']);
-          },error=>{
-            this.toastrService.error(error);
           });
       }
     } else {

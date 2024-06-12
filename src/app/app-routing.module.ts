@@ -236,6 +236,15 @@ const routes: Routes = [
               m => m.RackModule
             )
         },
+      {
+
+          path: 'qualitycheck',
+        loadChildren: () =>
+          import('./quality-check/quality-check.module').then(
+              m => m.QualityCheckModule
+            )
+        },
+       
         {
           path: 'purchase-order-report',
           loadChildren: () =>

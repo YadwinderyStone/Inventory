@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/security/auth.guard';
-import { RackComponent } from './rack/rack.component';
+import { QualityCheckComponent } from './quality-check/quality-check.component';
+import { QualityCheckListComponent } from './quality-check-list/quality-check-list.component';
 const routes: Routes = [
   {
     path: '',
-    component: RackComponent,
+    component: QualityCheckComponent,
     canActivate: [AuthGuard]
   },
+  {
 
-
+    path: 'qualitychecklist',
+    component: QualityCheckListComponent,
+    canActivate: [AuthGuard]
+  },
+ 
   //{
   //  path: 'bulk_inventory',
   //  component: BulkInventoryComponent,
@@ -29,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class RackRoutingModule { }
+export class QualityCheckRoutingModule { }

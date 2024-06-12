@@ -2,8 +2,7 @@
   <div class="main-menu-inner">
     <div class="menu-body sidebar-nav">
       <ul class="nav" data-widget="treeview" role="menu" data-accordion="false">
-        <li class="nav-item"
-            *hasClaim="['DB_STATISTICS','DB_BEST_SELLING_PROS','DB_REMINDERS','DB_LATEST_INQUIRIES','DB_RECENT_SO_SHIPMENT','DB_RECENT_PO_DELIVERY']">
+        <li class="nav-item" *hasClaim="['DB_STATISTICS','DB_BEST_SELLING_PROS','DB_REMINDERS','DB_LATEST_INQUIRIES','DB_RECENT_SO_SHIPMENT','DB_RECENT_PO_DELIVERY']">
           <a [routerLink]="['/']" [ngClass]="{'active': currentUrl == 'dashboard'}" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact:true}" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -12,6 +11,103 @@
             </p>
           </a>
         </li>
+        <li id="InboundHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
+            data-target="#InboundArea" class="collapsed"
+            *hasClaim="['SO_RETURN_SO']">
+          <a class="nav-link" [ngClass]="{'active': currentUrl == 'inbound'}">
+            <i class="nav-icon fas fa-cubes"></i>
+            <span>{{'Inbound Module' | translate}}</span>
+            <span class="fas fa-angle-down rotate-arrow ml-auto"></span>
+          </a>
+        </li>
+        <ul class="sub-menu collapse" [ngClass]="{'show': currentUrl == 'inbound'}" id="InboundArea"
+            aria-labelledby="InboundHeading" data-parent="#accordionExample">
+          <li class="nav-item" *hasClaim="'SO_RETURN_SO'">
+            <a [routerLink]="['/inventory','bulk_inventory']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}" class="nav-link">
+              <i class="fas fa-plus-square nav-icon"></i>
+              <p>{{'Add Bulk Inventory' | translate}}</p>
+            </a>
+          </li>
+          <!-- <li class="nav-item" *hasClaim="'SO_RETURN_SO'">
+            <a [routerLink]="['/inventory','bulk_inventory']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}" class="nav-link">
+              <i class="fas fa-plus-square nav-icon"></i>
+              <p>{{'Bulk History' | translate}}</p>
+            </a>
+          </li> -->
+        </ul>
+        <li id="ProcessHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
+            data-target="#ProcessArea" class="collapsed" *hasClaim="['SO_RETURN_SO']">
+          <a class="nav-link" [ngClass]="{'active': currentUrl == 'processing'}">
+            <i class="nav-icon fas fa-cubes"></i>
+            <span>{{'Processing Module' | translate}}</span>
+            <span class="fas fa-angle-down rotate-arrow ml-auto"></span>
+          </a>
+        </li>
+        <ul class="sub-menu collapse" [ngClass]="{'show': currentUrl == 'processing'}" id="ProcessArea"
+            aria-labelledby="ProcessHeading" data-parent="#accordionExample">
+          <li class="nav-item" *hasClaim="['SO_RETURN_SO']">
+            <a class="nav-link" [routerLink]="['/rack']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}">
+              <i class="nav-icon  fas fa-cart-arrow-down"></i>
+              <span>{{'Rack' | translate}}</span>
+              <!--<span class="fas fa-angle-down rotate-arrow ml-auto"></span>-->
+            </a>
+          </li>
+          <!-- <li class="nav-item" *hasClaim="['SO_RETURN_SO']">
+            <a class="nav-link" [routerLink]="['/qualitycheck']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}">
+              <i class="nav-icon  fas fa-cart-arrow-down"></i>
+              <span>{{'Quality Check' | translate}}</span>
+             
+            </a>
+          </li> -->
+          <li class="nav-item" *hasClaim="['SO_RETURN_SO']">
+            <a class="nav-link" [routerLink]="['/qualitycheck/qualitychecklist']" routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact:true}">
+              <i class="nav-icon  fas fa-cart-arrow-down"></i>
+              <span>{{'Quality Check-List' | translate}}</span>
+              <!--<span class="fas fa-angle-down rotate-arrow ml-auto"></span>-->
+            </a>
+          </li>
+        </ul>
+        <li id="OutBoundHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
+            data-target="#OutBoundArea" class="collapsed"
+            *hasClaim="['PRO_VIEW_PRODUCTS']">
+          <a class="nav-link" [ngClass]="{'active': currentUrl == 'outbound'}">
+            <i class="nav-icon fas fa-cubes"></i>
+            <span>{{'Outbound Module' | translate}}</span>
+            <span class="fas fa-angle-down rotate-arrow ml-auto"></span>
+          </a>
+        </li>
+        <ul class="sub-menu collapse" [ngClass]="{'show': currentUrl == 'outbound'}" id="OutBoundArea"
+            aria-labelledby="OutBoundHeading" data-parent="#accordionExample">
+          <!-- <li *hasClaim="'PRO_VIEW_PRODUCTS'" class="nav-item">
+            <a [routerLink]="['/products']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+               class="nav-link">
+              <i class="far fa-list-alt nav-icon"></i>
+              <p>{{'LIST' | translate}}</p>
+            </a>
+          </li> -->
+      
+        <li class="nav-item" *hasClaim="'SO_VIEW_SALES_ORDERS'">
+          <a [routerLink]="['/sales-order/list']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+             class="nav-link">
+            <i class="far fa-list-alt nav-icon"></i>
+            <p>{{'Sales Order List' | translate}}</p>
+          </a>
+        </li>
+        <li class="nav-item" *hasClaim="'SO_ADD_SO'">
+          <a [routerLink]="['/sales-order/add']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+             class="nav-link">
+            <i class="fas fa-plus-square nav-icon"></i>
+            <p>{{'Sales Add New' | translate}}</p>
+          </a>
+        </li>
+      </ul>
+    
+
         <li id="ProductHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
             data-target="#ProductCategory" class="collapsed"
             *hasClaim="['PRO_VIEW_PRODUCTS','PRO_ADD_PRODUCT','PRO_MANAGE_PRO_CAT','PRO_MANAGE_TAX','PRO_MANAGE_UNIT','PRO_MANAGE_BRAND','PRO_MANAGE_WAREHOUSE','PRO_MANAGE_BARCODE']">
@@ -79,16 +175,22 @@
               <p>{{'Upload Bulk Product' | translate}}</p>
             </a>
           </li>
+          <li *hasClaim="'PRO_MANAGE_WAREHOUSE'" class="nav-item">
+            <a [routerLink]="['/products','bulkproduct']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+               class="nav-link">
+              <i class="far fa-list-alt nav-icon"></i>
+              <p>{{'Bulk Product List' | translate}}</p>
+            </a>
+          </li>
           <li *hasClaim="'PRO_MANAGE_BARCODE'" class="nav-item">
+            <!-- <li *hasClaim="'PRO_MANAGE_BARCODE'" class="nav-item"></li> -->
             <a [routerLink]="['/Barcode']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                class="nav-link">
               <i class="far fa-list-alt nav-icon"></i>
               <p>{{'GENRATE BAR CODE' | translate}}</p>
             </a>
           </li>
-
         </ul>
-
         <li id="SupplierHeading" aria-expanded="true" aria-controls="collapseOne"
             *hasClaim="['SUPP_VIEW_SUPPLIERS','SUPP_ADD_SUPPLIER']" data-toggle="collapse" data-target="#Supplier"
             class="collapsed">
@@ -300,29 +402,7 @@
               <p>{{'List Bulk Inventory' | translate}}</p>
             </a>
           </li>
-
-          <li class="nav-item" *hasClaim="'SO_RETURN_SO'">
-            <a [routerLink]="['/inventory','bulk_inventory']" routerLinkActive="active"
-               [routerLinkActiveOptions]="{exact:true}" class="nav-link">
-              <i class="fas fa-plus-square nav-icon"></i>
-              <p>{{'Add Bulk Inventory' | translate}}</p>
-            </a>
-          </li>
         </ul>
-
-
-        <li id="RackHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
-            data-target="#RackReturn" class="collapsed" *hasClaim="['SO_RETURN_SO']">
-          <a class="nav-link" [routerLink]="['/rack']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact:true}" class="nav-link">
-            <i class="nav-icon  fas fa-cart-arrow-down"></i>
-            <span>{{'Rack' | translate}}</span>
-            <span class="fas fa-angle-down rotate-arrow ml-auto"></span>
-          </a>
-        </li>
-
-        
-
         <li id="ExpenseHeading" aria-expanded="true" aria-controls="collapseOne" data-toggle="collapse"
             data-target="#Expense" class="collapsed"
             *hasClaim="['EXP_VIEW_EXPENSES','EXP_ADD_EXPENSE','EXP_MANAGE_EXP_CATEGORY']">

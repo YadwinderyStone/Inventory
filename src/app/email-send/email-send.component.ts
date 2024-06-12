@@ -119,15 +119,18 @@ export class EmailSendComponent extends BaseComponent implements OnInit {
   }
 
   sendEmail() {
+    debugger;
     if (!this.emailForm.valid) {
       this.emailForm.markAllAsTouched();
       return;
     }
+    debugger;
     this.isLoading = true;
     const emailObj = this.emailForm.value;
     emailObj.attechments = this.fileData;
     this.emailSendService.sendEmail(emailObj)
       .subscribe(() => {
+        
         this.toastrService.success(this.translationService.getValue('EMAIL_SENT_SUCCESSFULLY'));
         this.isLoading = false;
         this.clearForm();
