@@ -1,0 +1,414 @@
+<!--<div class="page-header-main" style=" margin: -5px 0px 10px; border-bottom: 1px solid #2095F3; padding: 10px 0;">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-md-auto col-sm-auto col-auto">
+      <div class="content-header">
+        <h1>{{"Inventory List" | translate}}</h1>
+      </div>
+    </div>
+    <div class="col-md-auto col-sm-auto col-auto" style="position: relative; left: 10px;">
+      <button class="btn blue-btn btn-sm m-right-10" [routerLink]="['/inventory','bulk_inventory']">
+        <i class="fas fa-plus"></i> {{"Upload Bulk Inventory" | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+  <div class="col-sm-12">
+    <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery" (ngModelChange)="filterList()">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>WSN</th>
+            <th>WID</th>
+            <th>FSN</th>
+            <th>SKU</th>
+            <th>Listing ID</th>
+            <th>Order ID</th>
+            <th>QCremark</th>
+            <th>Grade</th>
+            <th>ProductT</th>
+            <th>HSN_SAC</th>
+            <th>IGSTrate</th>
+            <th>FSP</th>
+            <th>MRP</th>
+            <th>Rejected</th>
+            <th>PI_Date</th>
+            <th>FktLink</th>
+            <th>Wh_Locatin</th>
+            <th>Brand</th>
+            <th>Vertical</th>
+            <th>Cat_type</th>
+            <th>Area</th>
+            <th>Dest_Location</th>
+            <th>Vrp</th>
+            <th>BatchNumber</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredList">
+            <td>{{ item.sourceName }}</td>
+            <td>{{ item.wsn }}</td>
+            <td>{{ item.wid }}</td>
+            <td>{{ item.fsn }}</td>
+            <td>{{ item.sku }}</td>
+            <td>{{ item.listingID }}</td>
+            <td>{{ item.orderID }}</td>
+            <td>{{ item.qCremark }}</td>
+            <td>{{ item.grade }}</td>
+            <td>{{ item.productT }}</td>
+            <td>{{ item.hsN_SAC }}</td>
+            <td>{{ item.igsTrate }}</td>
+            <td>{{ item.fsp }}</td>
+            <td>{{ item.mrp }}</td>
+            <td>{{ item.rejected }}</td>
+            <td>{{ item.pI_Date }}</td>
+            <td>{{ item.fktLink }}</td>
+            <td>{{ item.wh_Locatin }}</td>
+            <td>{{ item.brand }}</td>
+            <td>{{ item.vertical }}</td>
+            <td>{{ item.cat_type }}</td>
+            <td>{{ item.area }}</td>
+            <td>{{ item.dest_Location }}</td>
+            <td>{{ item.vrp }}</td>
+            <td>{{ item.batchNumber }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>-->
+
+<div class="loading-shade" *ngIf="dataSource.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="page-header-main" style="margin: -5px 0px 10px; border-bottom: 1px solid #2095F3; padding: 10px 0;">
+  <div class="row align-items-center justify-content-between">
+    <div class="col-md-auto col-sm-auto col-auto">
+      <div class="content-header">
+        <h1>{{"Inventory List" | translate}}</h1>
+      </div>
+    </div>
+    <div class="col-md-auto col-sm-auto col-auto" style="position: relative; left: 10px;">
+      <button class="btn blue-btn btn-sm m-right-10" [routerLink]="['/inventory','bulk_inventory']">
+        <i class="fas fa-plus"></i> {{"Upload Bulk Inventory" | translate}}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin-top: 10px;">
+  <div class="col-md-8 my-2">
+    <input type="text" class="form-control" (keyup.enter)="onSearch()" placeholder="Search..." [(ngModel)]="search">
+  </div>
+  <div class="col-md-4 my-2">
+    <div class="d-flex justify-content-end">
+      <button type="button" (click)="onSearch()" class="btn btn-success btn-md mx-2 button-margin"><i class="fas fa-search"></i>
+          Search</button>
+      <button type="button" (click)="onClear();" class="btn btn-danger btn-md button-margin"><i
+              class="fas fa-times-circle"></i>
+          Clear </button>
+  </div>
+  </div>
+  <div class="table-responsive">
+    <!-- <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Source Name</th>
+            <th>WSN</th>
+            <th>WID</th>
+            <th>FSN</th>
+            <th>SKU</th>
+            <th>Listing ID</th>
+            <th>Order ID</th>
+            <th>QCremark</th>
+            <th>Grade</th>
+            <th>ProductTitle</th>
+            <th>HSN_SAC</th>
+            <th>IGSTrate</th>
+            <th>FSP</th>
+            <th>MRP</th>
+            <th>Rejected</th>
+            <th>PI_Date</th>
+            <th>FktLink</th>
+            <th>Wh_Locatin</th>
+            <th>Brand</th>
+            <th>Vertical</th>
+            <th>Cat_type</th>
+            <th>Area</th>
+            <th>Dest_Location</th>
+            <th>Vrp</th>
+            <th>BatchNumber</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredList" [ngClass]="{ 'edited-row': item.editable }">
+            <td>
+              <div class="dropdown" *ngIf="!item.editable">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Action
+                </button>
+                <div class="dropdown-menu" aria-labelledby="actionDropdown">
+                  <a class="dropdown-item" (click)="editProduct(item, $event)">Edit</a>
+                  <a class="dropdown-item" (click)="deleteProduct(item)">Delete</a>
+                </div>
+              </div>
+              <div *ngIf="item.editable">
+                <button class="btn btn-primary btn-sm" (click)="UpdateDate(item)">
+                  Update
+                </button>
+              </div>
+            </td>
+            <td><input type="text" [(ngModel)]="item.sourceName" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.wsn" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.wid" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.fsn" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.sku" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.listingID" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.orderID" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.qCremark" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.grade" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.productTitle" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.hsN_SAC" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.igsTrate" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.fsp" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.mrp" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.rejected" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.pI_Date" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.fktLink" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.wh_Locatin" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.brand" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.vertical" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.cat_type" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.area" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.dest_Location" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.vrp" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.batchNumber" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+            <td><input type="text" [(ngModel)]="item.category" [readonly]="!item.editable" [ngClass]="{'no-border-input': !item.editable, 'editable-input': item.editable}"></td>
+          </tr>
+        </tbody>
+      </table> -->
+
+    <table class="table-bordered" mat-table [dataSource]="dataSource" matSort multiTemplateDataRows matSortActive="productName">
+      <ng-container matColumnDef="action">
+        <th class="table-column-100" mat-header-cell *matHeaderCellDef> Action
+        </th>
+        <td class="table-column-100" mat-cell *matCellDef="let element">
+
+          <mat-icon class="interButtonIcons" (click)="editProduct(element, $event)">edit</mat-icon>
+          <mat-icon class="interButtonIcons" (click)="deleteProduct(element)">delete</mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sourceName">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header> Source Name</th>
+
+        <td class="table-column-200" mat-cell *matCellDef="let row">{{row.sourceName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="WSN">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>WSN</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.wsn}} </td>
+      </ng-container>
+      <ng-container matColumnDef="WID">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>WID</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.wid}} </td>
+      </ng-container>
+      <ng-container matColumnDef="FSN">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>FSN</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.fsn}} </td>
+      </ng-container>
+      <ng-container matColumnDef="SKU">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>SKU
+        </th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row?.sku}} </td>
+      </ng-container>
+      <ng-container matColumnDef="ListingID">
+        <th class="table-column-150" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Listing Id
+        </th>
+        <td class="table-column-150" mat-cell *matCellDef="let row"> <span
+            class="text-uppercase">{{row?.listingID}}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="OrderID">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Order Id
+        </th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row?.orderID}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="QCremark">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Quality Check Remark</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row?.qCremark}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Grade">
+        <th class="table-column-350" mat-header-cell *matHeaderCellDef mat-sort-header>Grade</th>
+        <td class="table-column-350" mat-cell *matCellDef="let row"> {{row.grade}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="ProductTitle">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header> Product Title</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.productTitle}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="HSN_SAC">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>HSN SAC</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row">{{row?.hsN_SAC}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="IGSTrate">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>IGS Trate</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.igsTrate}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="FSP">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>FSP</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.fsp}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="MRP">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>MRP</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.mrp}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Rejected">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Rejected</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.rejected}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="PI_Date">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>PI Date</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.pI_Date | date:'dd-mm-yyyy'}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="FktLink">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Fkt Link</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"><a [href]="row.fktLink" target="_blank" >{{row.fktLink }}</a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Wh_Locatin">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Whare house Locatin</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.wh_Locatin}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Brand">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Brand</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.brand}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Vertical">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Vertical</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.vertical}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Category">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.category}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Cat_type">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Category Type</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.cat_type}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Area">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Area</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.area}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Dest_Location">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Dest Location</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.dest_Location}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Vrp">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Vrp</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.vrp}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="BatchNumber">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Batch Number</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.batchNumber}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="createdDate">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.createdDate | date:'dd-mm-yyyy'}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="createdBy">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Created By</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.createdBy }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="modifiedBy">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Modified By</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.createdBy }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="modifiedDate">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Modified Date</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.modifiedDate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="deletedDate">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Modified Date</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.deletedDate | date:'dd-mm-yyyy' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="deletedBy">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Modified By</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.deletedBy }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="isDeleted">
+        <th class="table-column-200" mat-header-cell *matHeaderCellDef mat-sort-header>Deleted</th>
+        <td class="table-column-200" mat-cell *matCellDef="let row"> {{row.isDeleted }}
+        </td>
+      </ng-container>
+
+
+
+
+
+
+
+
+
+      <ng-container matColumnDef="footer">
+        <td mat-footer-cell colspan="10" *matFooterCellDef>
+          <mat-paginator [length]="inventoryResource.totalCount" [pageSize]="inventoryResource.pageSize"
+            [pageSizeOptions]="[10, 20, 30]">
+          </mat-paginator>
+        </td>
+      </ng-container>
+      <tr *matNoDataRow>
+        <td colspan="9">
+          <span class="p-4 mt-4">
+            <b> {{'NO_DATA_FOUND' | translate}}</b>
+          </span>
+        </td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="columnsToDisplay;sticky: true"></tr>
+    </table>
+
+
+
+  </div>
+</div>
+
+
+<!-- <ng-container matColumnDef="footer">
+    <td mat-footer-cell colspan="10" *matFooterCellDef>
+      <mat-paginator [dir]="langDir" [length]="inventoryResource.totalCount"
+                     [pageSize]="inventoryResource.pageSize" [pageSizeOptions]="[15, 20, 30]">
+      </mat-paginator>
+    </td>
+  </ng-container> -->
+
+
+
+<!-- </div>
+</div> -->

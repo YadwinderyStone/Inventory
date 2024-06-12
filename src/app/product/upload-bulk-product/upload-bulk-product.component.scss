@@ -1,0 +1,68 @@
+.container-fluid {
+  padding: 10px;
+}
+
+
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.inner-container {
+  width: 100%;
+  background: #FFFFFF;
+  padding: 20px;
+  margin-bottom: 10px;
+  min-height: 840px;
+}
+
+
+.page-content {
+  width: 100%;
+  min-height: 400px;
+}
+
+
+.sub-headline {
+  border-radius: 5px !important;
+  background-color: #edeef2;
+  width: 100%;
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+.tmargin10 {
+  margin-top: 10px;
+}
+
+body .ui-fileupload .ui-fileupload-buttonbar .ui-button {
+  margin-right: 8px;
+}
+
+.ui-widget-header .ui-button, .ui-widget-content .ui-button, .ui-widget.ui-button, .ui-button, .ui-widget-header .ui-button:enabled:hover, .ui-widget-header .ui-button:focus, .ui-widget-content .ui-button:enabled:hover, .ui-widget-content .ui-button:focus, .ui-button:enabled:hover, .ui-button:focus {
+  border: 10px solid #ffc107;
+  background: #ffc107 !important;
+  color: #FFF !important;
+  border-radius: 5px !important;
+}
+
+.ui-widget-header .ui-state-default, .ui-widget-content .ui-state-default, .ui-state-default {
+  border: none;
+  background: #fafafa;
+  color: #555555;
+  border-radius: 0;
+}
+
+button.blue-underline.pull-right.ng-star-inserted {
+  border: 10px solid #dc3545;
+  background: #dc3545 !important;
+  color: #FFF !important;
+  border-radius: 5px !important;
+  position: relative;
+  left: 7px;
+}

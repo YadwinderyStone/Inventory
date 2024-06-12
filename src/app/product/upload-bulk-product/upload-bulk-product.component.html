@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="inner-container">
+    <div class="page-content">
+      <div class="docs-main">
+        <div class="form-row-heading">
+          <div class="sub-headline">Import Product Excel File</div>
+        </div>
+        <div class="form-group tmargin10">
+          <p-fileUpload name="myfile[]" customUpload="true" auto="true" accept=".xlsx" chooseLabel="Choose" (uploadHandler)="onImportFileChange($event)">
+            <ng-template pTemplate="toolbar">
+              <!--<button icon="pi pi-upload" pbutton="" type="button" ng-reflect-label="Upload" ng-reflect-icon="pi pi-upload"
+                      [disabled]="!importedFileName" (click)="addBulkInventory()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ">
+                <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-upload"></span><span class="ui-button-text ui-clickable">Upload</span>
+              </button>-->
+
+              <button icon="pi pi-upload" type="button" ng-reflect-label="Upload" ng-reflect-icon="pi pi-upload"
+                      (click)="addBulkProducts()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ">
+                <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-upload"></span><span class="ui-button-text ui-clickable">Upload</span>
+              </button>
+              <button type="button" ng-reflect-label="Cancel" con="pi pi-times" class="blue-underline pull-right" (click)="CancelImport()">
+                Cancel
+              </button>
+            </ng-template>
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}}</li>
+              </ul>
+              <div class="import-result">
+                <div [innerHtml]="ImportResultHtml"></div>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
